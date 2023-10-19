@@ -34,6 +34,7 @@ import AutoIcon from "../icons/auto.svg";
 import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
+import MicrophoneIcon from "../icons/microphone.svg";
 
 import {
   ChatMessage,
@@ -53,6 +54,7 @@ import {
   selectOrCopy,
   autoGrowTextArea,
   useMobileScreen,
+  useSpeechRecognition,
 } from "../utils";
 
 import dynamic from "next/dynamic";
@@ -408,6 +410,7 @@ export function ChatActions(props: {
   showPromptModal: () => void;
   scrollToBottom: () => void;
   showPromptHints: () => void;
+  onActiveMic: () => void;
   hitBottom: boolean;
 }) {
   const config = useAppConfig();
@@ -515,6 +518,12 @@ export function ChatActions(props: {
         icon={<RobotIcon />}
       />
 
+      <ChatAction
+        onClick={props.onActiveMic}
+        text={"Use voice chat"}
+        icon={<MicrophoneIcon />}
+      />
+
       {showModelSelector && (
         <Selector
           defaultSelectedValue={currentModel}
@@ -617,6 +626,23 @@ function _Chat() {
   const [hitBottom, setHitBottom] = useState(true);
   const isMobileScreen = useMobileScreen();
   const navigate = useNavigate();
+
+  const { text, startListening, stopListening, isListening } =
+    useSpeechRecognition();
+
+  const onActiveMic = () => {
+    if (!isListening) {
+      console.log("inicio");
+      startListening();
+    } else {
+      console.log("parar");
+      stopListening();
+    }
+  };
+
+  useEffect(() => {
+    setUserInput((prev) => prev + text);
+  }, [text]);
 
   // prompt hints
   const promptStore = usePromptStore();
@@ -1242,6 +1268,7 @@ function _Chat() {
         <ChatActions
           showPromptModal={() => setShowPromptModal(true)}
           scrollToBottom={scrollToBottom}
+          onActiveMic={onActiveMic}
           hitBottom={hitBottom}
           showPromptHints={() => {
             // Click again to close
