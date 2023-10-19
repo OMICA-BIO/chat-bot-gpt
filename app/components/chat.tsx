@@ -1152,17 +1152,12 @@ function _Chat() {
                           }}
                         ></IconButton>
                       </div>
-                      {isUser ? (
-                        <Avatar avatar={config.avatar} />
-                      ) : (
-                        <>
-                          {["system"].includes(message.role) ? (
-                            <Avatar avatar="2699-fe0f" />
-                          ) : (
-                            <MaskAvatar mask={session.mask} />
-                          )}
-                        </>
-                      )}
+                      <img
+                        width={20}
+                        height={20}
+                        src="https://md.omica.bio/assets/img/logo_verde.png"
+                        alt="logo omica"
+                      />
                     </div>
 
                     {showActions && (

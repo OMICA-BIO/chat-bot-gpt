@@ -141,17 +141,19 @@
 
 .sidebar-logo {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 18px;
 }
 
 .sidebar-title {
+  text-align: end;
   font-size: 20px;
   font-weight: bold;
   animation: slide-in ease 0.3s;
 }
 
 .sidebar-sub-title {
+  text-align: end;
   font-size: 12px;
   font-weight: 400;
   animation: slide-in ease 0.3s;
